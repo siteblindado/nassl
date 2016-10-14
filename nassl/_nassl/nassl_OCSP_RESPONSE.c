@@ -10,6 +10,7 @@
 #include <openssl/x509.h>
 #include <openssl/ocsp.h>
 
+#include "nassl_compat.h"
 #include "nassl_errors.h"
 #include "nassl_OCSP_RESPONSE.h"
 
@@ -60,7 +61,7 @@ static PyObject* nassl_OCSP_RESPONSE_as_text(nassl_OCSP_RESPONSE_Object *self) {
         return PyErr_NoMemory();
 
     BIO_read(memBio, txtBuffer, txtLen);
-    ocsResp_PyString = PyString_FromStringAndSize(txtBuffer, txtLen);
+    ocsResp_PyString = PY_STRING_AND_SIZE(txtBuffer, txtLen);
     PyMem_Free(txtBuffer);
 
     return ocsResp_PyString;

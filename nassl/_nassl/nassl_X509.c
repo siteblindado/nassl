@@ -10,7 +10,7 @@
 #include <openssl/ssl.h>
 #include <openssl/evp.h>
 
-
+#include "nassl_compat.h"
 #include "nassl_errors.h"
 #include "nassl_X509.h"
 #include "nassl_X509_EXTENSION.h"
@@ -101,7 +101,7 @@ static PyObject* nassl_X509_digest(nassl_X509_Object *self, PyObject *args) {
 
     // Only support SHA1 for now
     if (X509_digest(self->x509, EVP_sha1(), readBuffer, &digestLen) == 1) { // Read OK
-        res = PyString_FromStringAndSize((char *)readBuffer, digestLen);
+        res = PY_STRING_AND_SIZE((char *)readBuffer, digestLen);
     }
     else {
         PyErr_SetString(nassl_OpenSSLError_Exception, "X509_digest() failed.");
@@ -215,7 +215,7 @@ static PyObject* nassl_X509_verify_cert_error_string(PyObject *nullPtr, PyObject
     }
 
     errorString = X509_verify_cert_error_string(verifyError);
-    return PyString_FromString(errorString);
+    return PY_STRING(errorString);
 }
 
 static PyObject* nassl_X509_get_spki_bytes(nassl_X509_Object *self, PyObject *args)
@@ -248,7 +248,7 @@ static PyObject* nassl_X509_get_spki_bytes(nassl_X509_Object *self, PyObject *ar
     }
     else
     {
-        spkiBytes = PyString_FromStringAndSize((char *)spkiBufferStart, spkiLen);
+        spkiBytes = PY_STRING_AND_SIZE((char *)spkiBufferStart, spkiLen);
     }
     PyMem_Free(spkiBufferStart);
     return spkiBytes;
