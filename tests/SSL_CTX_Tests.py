@@ -56,7 +56,7 @@ A4GBAFjOKer89961zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y
     def test_set_private_key_password_null_byte(self):
         # NULL byte embedded in the password
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
-        self.assertRaisesRegexp(TypeError, 'must be string without null bytes', test_ssl_ctx.set_private_key_password,
+        self.assertRaisesRegex(TypeError, 'must be string without null bytes', test_ssl_ctx.set_private_key_password,
                                 ("AAA\x00AAAA"))
 
 
@@ -108,7 +108,7 @@ Pd2eQ9+DkopOz3UGU7c=
     def test_use_certificate_file_bad(self):
         # Bad filename
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
-        self.assertRaisesRegexp(_nassl.OpenSSLError, 'system lib', test_ssl_ctx.use_certificate_chain_file,
+        self.assertRaisesRegex(_nassl.OpenSSLError, 'system lib', test_ssl_ctx.use_certificate_chain_file,
                                 'invalidPath')
 
 
@@ -138,7 +138,7 @@ jsXbhxAIkrdmpg==
     def test_use_PrivateKey_file_bad(self):
         # Bad filename
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
-        self.assertRaisesRegexp(_nassl.OpenSSLError, 'No such file', test_ssl_ctx.use_PrivateKey_file, 'invalidPath',
+        self.assertRaisesRegex(_nassl.OpenSSLError, 'No such file', test_ssl_ctx.use_PrivateKey_file, 'invalidPath',
                                 SSL_FILETYPE_PEM)
 
 
@@ -211,7 +211,7 @@ Pd2eQ9+DkopOz3UGU7c=
 
     def test_check_private_key_bad(self):
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
-        self.assertRaisesRegexp(_nassl.OpenSSLError, 'no certificate assigned', test_ssl_ctx.check_private_key)
+        self.assertRaisesRegex(_nassl.OpenSSLError, 'no certificate assigned', test_ssl_ctx.check_private_key)
 
     # TODO: add get_ca_list tests
 

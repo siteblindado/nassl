@@ -269,7 +269,7 @@ class X509Certificate:
             ext_data = x509ext.get_data()
             # TODO: Should we output the critical field ?
             #extCrit = x509ext.get_critical()
-            if ext_name in x509_ext_parsing_methods.keys():
+            if ext_name in list(x509_ext_parsing_methods.keys()):
                 ext_dict[ext_name] = x509_ext_parsing_methods[ext_name](ext_data)
             else:
                 ext_dict[ext_name] = ext_data.strip()
@@ -288,7 +288,7 @@ class X509Certificate:
             if len(value) == 1:
                 parsed_ext[value[0]] = ''
             else:
-                if parsed_ext.has_key(value[0]):
+                if value[0] in parsed_ext:
                     parsed_ext[value[0]].append(value[1])
                 else:
                     parsed_ext[value[0]] = [value[1]]
@@ -306,11 +306,11 @@ class X509Certificate:
             auth_entry = auth_entry.split(' - ')
             entry_name = auth_entry[0].replace(' ', '')
 
-            if not auth_ext_list.has_key(entry_name):
+            if entry_name not in auth_ext_list:
                 auth_ext_list[entry_name] = {}
 
             entry_data = auth_entry[1].split(':', 1)
-            if auth_ext_list[entry_name].has_key(entry_data[0]):
+            if entry_data[0] in auth_ext_list[entry_name]:
                 auth_ext_list[entry_name][entry_data[0]].append(entry_data[1])
             else:
                 auth_ext_list[entry_name] = {entry_data[0]: [entry_data[1]]}
@@ -328,7 +328,7 @@ class X509Certificate:
             distrib_point = distrib_point.strip()
             distrib_point = distrib_point.split(':', 1)
             if len(distrib_point) >= 2:
-                if subcrl.has_key(distrib_point[0].strip()):
+                if distrib_point[0].strip() in subcrl:
                     subcrl[distrib_point[0].strip()].append(distrib_point[1].strip())
                 else:
                     subcrl[distrib_point[0].strip()] = [(distrib_point[1].strip())]

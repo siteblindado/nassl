@@ -21,7 +21,7 @@ TLSV1_2 = 5
 
 
 # SSL mode constants
-SSL_MODE_SEND_FALLBACK_SCSV =       0x00000080L
+SSL_MODE_SEND_FALLBACK_SCSV =       0x00000080
 
 
 # Certificate and private key formats
@@ -30,7 +30,7 @@ SSL_FILETYPE_ASN1 = 2
 
 
 # SSL Options
-SSL_OP_NO_TICKET = 0x00004000L # No TLS Session Tickets
+SSL_OP_NO_TICKET = 0x00004000 # No TLS Session Tickets
 
 
 # OCSP Stapling

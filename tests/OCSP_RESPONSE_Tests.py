@@ -53,7 +53,7 @@ Pd2eQ9+DkopOz3UGU7c=
 -----END CERTIFICATE-----
 """)
         test_file.close()
-        self.assertRaisesRegexp(_nassl.OpenSSLError, 'certificate verify error', self.ocsp_response.basic_verify,
+        self.assertRaisesRegex(_nassl.OpenSSLError, 'certificate verify error', self.ocsp_response.basic_verify,
                                 test_file.name)
 
 

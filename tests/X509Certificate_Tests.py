@@ -47,19 +47,19 @@ X4XSQRjbgbMEHMUfpIBvFSDJ3gyICh3WZlXi/EjJKSZp4A==
         self.cert = X509Certificate.from_pem(self.pem_cert)
 
     def test_get_hpkp_pin(self):
-        self.assertEquals(self.cert.get_hpkp_pin(), 'K87oWBWM9UZfyddvDfoxL+8lpNyoUB2ptGtn0fv6G2Q=')
+        self.assertEqual(self.cert.get_hpkp_pin(), 'K87oWBWM9UZfyddvDfoxL+8lpNyoUB2ptGtn0fv6G2Q=')
 
     def test_as_text(self):
         self.assertTrue(self.cert.as_text())
 
     def test_as_pem(self):
-        self.assertEquals(self.cert.as_pem().replace('\n','').strip(), self.pem_cert.replace('\n','').strip())
+        self.assertEqual(self.cert.as_pem().replace('\n','').strip(), self.pem_cert.replace('\n','').strip())
 
     def test_as_dict(self):
         self.assertTrue(self.cert.as_dict())
 
     def test_get_SHA1_fingerprint(self):
-        self.assertEquals(self.cert.get_SHA1_fingerprint(), 'b1bc968bd4f49d622aa89a81f2150152a41d829c')
+        self.assertEqual(self.cert.get_SHA1_fingerprint(), 'b1bc968bd4f49d622aa89a81f2150152a41d829c')
 
 
 def main():

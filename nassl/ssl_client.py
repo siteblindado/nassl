@@ -1,8 +1,8 @@
 #!/usr/bin/python2.7
 from nassl._nassl import SSL_CTX, SSL, BIO, WantReadError, OpenSSLError, X509, WantX509LookupError
 from nassl import SSLV23, SSLV2, SSL_VERIFY_PEER, TLSEXT_STATUSTYPE_ocsp, SSL_FILETYPE_PEM
-from x509_certificate import X509Certificate
-from ocsp_response import OcspResponse
+from .x509_certificate import X509Certificate
+from .ocsp_response import OcspResponse
 
 DEFAULT_BUFFER_SIZE = 4096
 
@@ -282,7 +282,7 @@ class SslClient(object):
 
         self._ssl_ctx.use_certificate_chain_file(client_certchain_file)
 
-        if isinstance(client_key_password, basestring):
+        if isinstance(client_key_password, str):
             self._ssl_ctx.set_private_key_password(client_key_password)
         else:
             raise TypeError('client_key_password is not a string')

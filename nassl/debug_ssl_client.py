@@ -1,6 +1,6 @@
 #!/usr/bin/python2.7
 from nassl._nassl import SSL
-from ssl_client import SslClient
+from .ssl_client import SslClient
 
 
 
@@ -65,7 +65,7 @@ class DebugSslClient(SslClient):
         if 'Cofactor' in d :
             d['Cofactor'] = d['Cofactor'].split(' ')[0]
 
-        for k in d.keys() :
+        for k in list(d.keys()) :
             if k.startswith('Generator') :
                 d['Generator'] = d.pop(k)
                 d['GeneratorType'] = k.split('_')[1].strip('()')

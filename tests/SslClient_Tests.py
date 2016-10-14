@@ -122,7 +122,7 @@ class SslClient_Tests_Online(unittest.TestCase):
 
     def test_read(self):
         self.ssl_client.write('GET / HTTP/1.0\r\n\r\n')
-        self.assertRegexpMatches(self.ssl_client.read(1024), 'google')
+        self.assertRegex(self.ssl_client.read(1024), 'google')
 
 
     def test_get_peer_certificate(self):
@@ -153,7 +153,7 @@ class SslClient_Tests_Online(unittest.TestCase):
 
         ssl_client = DebugSslClient(ssl_version=SSLV23, sock=sock, ssl_verify=SSL_VERIFY_NONE)
 
-        self.assertRaisesRegexp(ClientCertificateRequested, 'Server requested a client certificate',
+        self.assertRaisesRegex(ClientCertificateRequested, 'Server requested a client certificate',
                                 ssl_client.do_handshake)
 
 
