@@ -4,7 +4,7 @@ nassl
 
 [![Build Status](https://travis-ci.org/nabla-c0d3/nassl.svg?branch=master)](https://travis-ci.org/nabla-c0d3/nassl)
 
-Experimental OpenSSL wrapper for Python 2.7 and SSLyze. **Do NOT use for anything serious**. This code has not been 
+Experimental OpenSSL wrapper for Python 2.7 or Python 3.5 and SSLyze. **Do NOT use for anything serious**. This code has not been 
 properly tested/reviewed and is absolutely not production ready.
 
 Quick Start
