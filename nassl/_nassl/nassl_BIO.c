@@ -40,7 +40,7 @@ static void nassl_BIO_dealloc(nassl_BIO_Object *self) {
         self->bio = NULL;
     }
 
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 

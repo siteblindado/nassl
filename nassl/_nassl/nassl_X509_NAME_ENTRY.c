@@ -20,7 +20,7 @@ static void nassl_X509_NAME_ENTRY_dealloc(nassl_X509_NAME_ENTRY_Object *self) {
         self->x509NameEntry = NULL;
     }
 
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 

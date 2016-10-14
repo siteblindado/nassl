@@ -34,7 +34,7 @@ static void nassl_OCSP_RESPONSE_dealloc(nassl_OCSP_RESPONSE_Object *self) {
         sk_X509_free(self->peerCertChain);
         self->peerCertChain = NULL;
     }
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 

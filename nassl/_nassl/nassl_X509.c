@@ -55,7 +55,7 @@ static void nassl_X509_dealloc(nassl_X509_Object *self) {
   		self->x509 = NULL;
   	}
 
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 

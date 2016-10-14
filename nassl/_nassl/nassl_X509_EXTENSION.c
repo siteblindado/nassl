@@ -23,7 +23,7 @@ static void nassl_X509_EXTENSION_dealloc(nassl_X509_EXTENSION_Object *self) {
         self->x509ext = NULL;
     }
 
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 

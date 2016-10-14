@@ -84,7 +84,7 @@ static void nassl_SSL_dealloc(nassl_SSL_Object *self) {
     if (self->sslCtx_Object != NULL) {
         Py_DECREF(self->sslCtx_Object);
     }
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 
