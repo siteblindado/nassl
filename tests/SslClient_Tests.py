@@ -13,7 +13,7 @@ class SslClient_Tests_PrivateKey(unittest.TestCase):
         self.ssl_client = DebugSslClient(ssl_version=SSLV23, ssl_verify=SSL_VERIFY_NONE)
 
         test_file = tempfile.NamedTemporaryFile(delete=False)
-        test_file.write("""-----BEGIN RSA PRIVATE KEY-----
+        test_file.write(b"""-----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
 DEK-Info: DES-EDE3-CBC,7D15D836EE9E1B77
 
@@ -35,7 +35,7 @@ tqXk90NdSqJtMMGgrtVM84TYFPXP58QCBnE9oAI7XYM1rusuVBOXZw==
         test_file.close()
         self.test_file = test_file
         test_file2 = tempfile.NamedTemporaryFile(delete=False)
-        test_file2.write("""-----BEGIN CERTIFICATE-----
+        test_file2.write(b"""-----BEGIN CERTIFICATE-----
 MIIDCjCCAnOgAwIBAgIBAjANBgkqhkiG9w0BAQUFADCBgDELMAkGA1UEBhMCRlIx
 DjAMBgNVBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJpczEWMBQGA1UECgwNRGFzdGFy
 ZGx5IEluYzEMMAoGA1UECwwDMTIzMQ8wDQYDVQQDDAZBbCBCYW4xGjAYBgkqhkiG

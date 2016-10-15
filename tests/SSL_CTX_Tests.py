@@ -25,7 +25,7 @@ class SSL_CTX_Tests(unittest.TestCase):
     def test_load_verify_locations(self):
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
         test_file = tempfile.NamedTemporaryFile(delete=False)
-        test_file.write("""-----BEGIN CERTIFICATE-----
+        test_file.write(b"""-----BEGIN CERTIFICATE-----
 MIIDIDCCAomgAwIBAgIENd70zzANBgkqhkiG9w0BAQUFADBOMQswCQYDVQQGEwJV
 UzEQMA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2Vy
 dGlmaWNhdGUgQXV0aG9yaXR5MB4XDTk4MDgyMjE2NDE1MVoXDTE4MDgyMjE2NDE1
@@ -63,7 +63,7 @@ A4GBAFjOKer89961zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y
     def test_use_certificate_file(self):
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
         test_file = tempfile.NamedTemporaryFile(delete=False)
-        test_file.write("""-----BEGIN CERTIFICATE-----
+        test_file.write(b"""-----BEGIN CERTIFICATE-----
 MIIDCjCCAnOgAwIBAgIBAjANBgkqhkiG9w0BAQUFADCBgDELMAkGA1UEBhMCRlIx
 DjAMBgNVBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJpczEWMBQGA1UECgwNRGFzdGFy
 ZGx5IEluYzEMMAoGA1UECwwDMTIzMQ8wDQYDVQQDDAZBbCBCYW4xGjAYBgkqhkiG
@@ -115,7 +115,7 @@ Pd2eQ9+DkopOz3UGU7c=
     def test_use_PrivateKey_file(self):
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
         test_file = tempfile.NamedTemporaryFile(delete=False)
-        test_file.write("""-----BEGIN PRIVATE KEY-----
+        test_file.write(b"""-----BEGIN PRIVATE KEY-----
 MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOWe8/WW1U7wkM1P
 cAD31Cq2KoKL/sF4RwUObZqXjqa/uWijPoKYHziiyu6w1UWxLkgItusKZ6jDmzFb
 tVW94a54FDJbKeeCXY+aa58DkyHCrRljwK/BX47ubSERfHPBvIZrbdqLXo7MiJo2
@@ -145,7 +145,7 @@ jsXbhxAIkrdmpg==
     def test_check_private_key(self):
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
         test_file = tempfile.NamedTemporaryFile(delete=False)
-        test_file.write("""-----BEGIN PRIVATE KEY-----
+        test_file.write(b"""-----BEGIN PRIVATE KEY-----
 MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOWe8/WW1U7wkM1P
 cAD31Cq2KoKL/sF4RwUObZqXjqa/uWijPoKYHziiyu6w1UWxLkgItusKZ6jDmzFb
 tVW94a54FDJbKeeCXY+aa58DkyHCrRljwK/BX47ubSERfHPBvIZrbdqLXo7MiJo2
@@ -164,7 +164,7 @@ jsXbhxAIkrdmpg==
 """)
         test_file.close()
         test_file2 = tempfile.NamedTemporaryFile(delete=False)
-        test_file2.write("""-----BEGIN CERTIFICATE-----
+        test_file2.write(b"""-----BEGIN CERTIFICATE-----
 MIIDCjCCAnOgAwIBAgIBAjANBgkqhkiG9w0BAQUFADCBgDELMAkGA1UEBhMCRlIx
 DjAMBgNVBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJpczEWMBQGA1UECgwNRGFzdGFy
 ZGx5IEluYzEMMAoGA1UECwwDMTIzMQ8wDQYDVQQDDAZBbCBCYW4xGjAYBgkqhkiG

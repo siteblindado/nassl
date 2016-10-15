@@ -32,7 +32,7 @@ class OCSP_RESPONSE_Tests_Online(unittest.TestCase):
     def test_basic_verify_bad(self):
         # Wrong certificate
         test_file = tempfile.NamedTemporaryFile(delete=False)
-        test_file.write("""-----BEGIN CERTIFICATE-----
+        test_file.write(b"""-----BEGIN CERTIFICATE-----
 MIIDCjCCAnOgAwIBAgIBAjANBgkqhkiG9w0BAQUFADCBgDELMAkGA1UEBhMCRlIx
 DjAMBgNVBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJpczEWMBQGA1UECgwNRGFzdGFy
 ZGx5IEluYzEMMAoGA1UECwwDMTIzMQ8wDQYDVQQDDAZBbCBCYW4xGjAYBgkqhkiG
