@@ -95,7 +95,7 @@ static PyObject* nassl_BIO_write(nassl_BIO_Object *self, PyObject *args) {
     char *writeBuffer;
     PyObject *res = NULL;
 
-    if (!PyArg_ParseTuple(args, "t#", &writeBuffer, &writeSize)) {
+    if (!PyArg_ParseTuple(args, "s#", &writeBuffer, &writeSize)) {
         return NULL;
     }
 

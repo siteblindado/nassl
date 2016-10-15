@@ -159,7 +159,7 @@ static PyObject* nassl_SSL_write(nassl_SSL_Object *self, PyObject *args) {
     char *writeBuffer;
     PyObject *res = NULL;
 
-    if (!PyArg_ParseTuple(args, "t#", &writeBuffer, &writeSize)) {
+    if (!PyArg_ParseTuple(args, "s#", &writeBuffer, &writeSize)) {
         return NULL;
     }
 
