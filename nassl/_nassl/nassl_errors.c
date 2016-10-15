@@ -1,4 +1,6 @@
 
+#include <Python.h>
+#include <bytesobject.h>
 #include <openssl/err.h>
 
 #ifdef _WIN32
@@ -17,7 +19,7 @@ static PyObject *nassl_WantX509LookupError_Exception;
 
 
 PyObject* raise_OpenSSL_error() {
-    PyObject *pyFinalErrorString = PyUnicode_FromString("");
+    PyObject *pyFinalErrorString = PyBytes_FromString("");
     unsigned long iterateOpenSslError = ERR_get_error();
 
     // Just queue all the errors in the error queue to create a giant error string
@@ -29,11 +31,11 @@ PyObject* raise_OpenSSL_error() {
 
         // Get the current error string and convert it to a Python string
         ERR_error_string_n(iterateOpenSslError, iterateErrorString, 128);
-        pyIterateErrorString = PyUnicode_FromString(iterateErrorString);
+        pyIterateErrorString = PyBytes_FromString(iterateErrorString);
 
         // Concatenate it with the previous error strings
-        pyFinalErrorString = PyUnicode_Concat(pyFinalErrorString, PyUnicode_FromString("\n"));
-        pyFinalErrorString = PyUnicode_Concat(pyFinalErrorString, pyIterateErrorString);
+        PyBytes_ConcatAndDel(&pyFinalErrorString,PyBytes_FromString("\n"));
+        PyBytes_ConcatAndDel(&pyFinalErrorString, pyIterateErrorString);
         if (pyFinalErrorString == NULL) {
             return PyErr_NoMemory();
         }

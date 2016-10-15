@@ -101,7 +101,7 @@ static PyObject* nassl_X509_digest(nassl_X509_Object *self, PyObject *args) {
 
     // Only support SHA1 for now
     if (X509_digest(self->x509, EVP_sha1(), readBuffer, &digestLen) == 1) { // Read OK
-        res = PyUnicode_FromStringAndSize((char *)readBuffer, digestLen);
+        res = PyBytes_FromStringAndSize((char *)readBuffer, digestLen);
     }
     else {
         PyErr_SetString(nassl_OpenSSLError_Exception, "X509_digest() failed.");
@@ -215,7 +215,7 @@ static PyObject* nassl_X509_verify_cert_error_string(PyObject *nullPtr, PyObject
     }
 
     errorString = X509_verify_cert_error_string(verifyError);
-    return PyUnicode_FromString(errorString);
+    return PyBytes_FromString(errorString);
 }
 
 static PyObject* nassl_X509_get_spki_bytes(nassl_X509_Object *self, PyObject *args)
