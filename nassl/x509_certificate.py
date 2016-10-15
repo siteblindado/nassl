@@ -37,7 +37,7 @@ class X509Certificate:
 
 
     def get_SHA1_fingerprint(self):
-        return hexlify(self._x509.digest())
+        return hexlify(self._x509.digest()).decode('utf-8')
 
 
     def get_hpkp_pin(self):
@@ -45,7 +45,7 @@ class X509Certificate:
         """
         spki_bytes = self._x509.get_spki_bytes()
         hashed_bytes = hashlib.sha256(spki_bytes).digest()
-        return base64.b64encode(hashed_bytes)
+        return base64.b64encode(hashed_bytes).decode('utf-8')
 
 
     def as_dict(self):

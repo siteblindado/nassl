@@ -25,7 +25,7 @@ PyObject* generic_print_to_string(int (*openSslPrintFunction)(BIO *fp, const voi
 
     // Extract the text from the BIO
     BIO_read(memBio, dataTxtBuffer, dataTxtSize);
-    res = PyBytes_FromStringAndSize(dataTxtBuffer, dataTxtSize);
+    res = PyUnicode_FromKindAndData(PyUnicode_1BYTE_KIND, dataTxtBuffer, dataTxtSize);
     PyMem_Free(dataTxtBuffer);
     return res;
 }

@@ -215,7 +215,7 @@ static PyObject* nassl_X509_verify_cert_error_string(PyObject *nullPtr, PyObject
     }
 
     errorString = X509_verify_cert_error_string(verifyError);
-    return PyBytes_FromString(errorString);
+    return PyUnicode_FromString(errorString);
 }
 
 static PyObject* nassl_X509_get_spki_bytes(nassl_X509_Object *self, PyObject *args)

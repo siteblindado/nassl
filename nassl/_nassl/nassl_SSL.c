@@ -143,7 +143,7 @@ static PyObject* nassl_SSL_read(nassl_SSL_Object *self, PyObject *args) {
 
     returnValue = SSL_read(self->ssl, readBuffer, readSize);
     if (returnValue > 0) { // Read OK
-        res = PyBytes_FromStringAndSize(readBuffer, returnValue);
+        res = PyUnicode_FromKindAndData(PyUnicode_1BYTE_KIND, readBuffer, returnValue);
     }
     else {  // Read failed
         raise_OpenSSL_ssl_error(self->ssl, returnValue);
@@ -227,7 +227,7 @@ static PyObject* nassl_SSL_get_available_compression_methods(nassl_SSL_Object *s
             return NULL;
         }
 
-        methodPyString = PyBytes_FromString(method->name);
+        methodPyString = PyUnicode_FromString(method->name);
         if (methodPyString == NULL) {
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
         }
