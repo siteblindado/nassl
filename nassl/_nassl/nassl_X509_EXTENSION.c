@@ -44,7 +44,7 @@ static PyObject* nassl_X509_EXTENSION_get_object(nassl_X509_EXTENSION_Object *se
 
     // Extract the text representation
     OBJ_obj2txt(objTxtBuffer, objTxtSize, x509extObj, 0);
-    res = PyBytes_FromStringAndSize(objTxtBuffer, objTxtSize - 1);
+    res = PyUnicode_FromStringAndSize(objTxtBuffer, objTxtSize - 1);
     PyMem_Free(objTxtBuffer);
     return res;
 }
@@ -71,7 +71,7 @@ static PyObject* nassl_X509_EXTENSION_get_data(nassl_X509_EXTENSION_Object *self
 
     // Extract the text from the BIO
     BIO_read(memBio, dataTxtBuffer, dataTxtSize);
-    res = PyBytes_FromStringAndSize(dataTxtBuffer, dataTxtSize);
+    res = PyUnicode_FromStringAndSize(dataTxtBuffer, dataTxtSize);
     PyMem_Free(dataTxtBuffer);
     return res;
 }

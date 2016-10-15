@@ -143,7 +143,7 @@ static PyObject* nassl_SSL_read(nassl_SSL_Object *self, PyObject *args) {
 
     returnValue = SSL_read(self->ssl, readBuffer, readSize);
     if (returnValue > 0) { // Read OK
-        res = PyBytes_FromStringAndSize(readBuffer, returnValue);
+        res = PyUnicode_FromStringAndSize(readBuffer, returnValue);
     }
     else {  // Read failed
         raise_OpenSSL_ssl_error(self->ssl, returnValue);
@@ -227,7 +227,7 @@ static PyObject* nassl_SSL_get_available_compression_methods(nassl_SSL_Object *s
             return NULL;
         }
 
-        methodPyString = PyBytes_FromString(method->name);
+        methodPyString = PyUnicode_FromString(method->name);
         if (methodPyString == NULL) {
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
         }
@@ -246,7 +246,7 @@ static PyObject* nassl_SSL_get_current_compression_method(nassl_SSL_Object *self
     if (compMethod == NULL)
         Py_RETURN_NONE;
 
-    return PyBytes_FromString(SSL_COMP_get_name(compMethod));
+    return PyUnicode_FromString(SSL_COMP_get_name(compMethod));
 }
 
 
@@ -339,7 +339,7 @@ static PyObject* nassl_SSL_get_cipher_list(nassl_SSL_Object *self, PyObject *arg
         PyObject *cipherPyString = NULL;
         const char *cipherName = SSL_get_cipher_list(self->ssl, priority);
 
-        cipherPyString = PyBytes_FromString(cipherName);
+        cipherPyString = PyUnicode_FromString(cipherName);
         if (cipherPyString == NULL)
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
 
@@ -361,7 +361,7 @@ static PyObject* nassl_SSL_get_cipher_bits(nassl_SSL_Object *self, PyObject *arg
 
 static PyObject* nassl_SSL_get_cipher_name(nassl_SSL_Object *self, PyObject *args) {
     const char *cipherName = SSL_get_cipher_name(self->ssl);
-    return PyBytes_FromString(cipherName);
+    return PyUnicode_FromString(cipherName);
 }
 
 
@@ -393,7 +393,7 @@ static PyObject* nassl_SSL_get_client_CA_list(nassl_SSL_Object *self, PyObject *
         // The use of X509_NAME_oneline is "is strongly discouraged in new applications"
         // But that's all we need for now
         nameStr = X509_NAME_oneline(name, NULL, 0);
-        namePyString = PyBytes_FromString(nameStr);
+        namePyString = PyUnicode_FromString(nameStr);
         if (namePyString == NULL) {
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
         }
@@ -530,7 +530,7 @@ static PyObject* nassl_SSL_state_string_long(nassl_SSL_Object *self, PyObject *a
     // This is only used for fixing SSLv2 connections when connecting to IIS7 (like in the 90s)
     // See SslClient.py for more information
     const char *stateString = SSL_state_string_long(self->ssl);
-    return PyBytes_FromString(stateString);
+    return PyUnicode_FromString(stateString);
 }
 
 

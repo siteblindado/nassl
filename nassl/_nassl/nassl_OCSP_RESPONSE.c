@@ -61,7 +61,7 @@ static PyObject* nassl_OCSP_RESPONSE_as_text(nassl_OCSP_RESPONSE_Object *self) {
         return PyErr_NoMemory();
 
     BIO_read(memBio, txtBuffer, txtLen);
-    ocsResp_PyString = PyBytes_FromStringAndSize(txtBuffer, txtLen);
+    ocsResp_PyString = PyUnicode_FromStringAndSize(txtBuffer, txtLen);
     PyMem_Free(txtBuffer);
 
     return ocsResp_PyString;
