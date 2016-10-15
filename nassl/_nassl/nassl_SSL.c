@@ -393,7 +393,7 @@ static PyObject* nassl_SSL_get_client_CA_list(nassl_SSL_Object *self, PyObject *
         // The use of X509_NAME_oneline is "is strongly discouraged in new applications"
         // But that's all we need for now
         nameStr = X509_NAME_oneline(name, NULL, 0);
-        namePyString = PyBytes_FromString(nameStr);
+        namePyString = PyUnicode_FromString(nameStr);
         if (namePyString == NULL) {
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
         }
