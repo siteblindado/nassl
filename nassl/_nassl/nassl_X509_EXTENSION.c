@@ -1,10 +1,10 @@
 
 #include <Python.h>
+#include <bytesobject.h>
 
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 
-#include "nassl_compat.h"
 #include "nassl_errors.h"
 #include "nassl_X509_EXTENSION.h"
 
@@ -44,7 +44,7 @@ static PyObject* nassl_X509_EXTENSION_get_object(nassl_X509_EXTENSION_Object *se
 
     // Extract the text representation
     OBJ_obj2txt(objTxtBuffer, objTxtSize, x509extObj, 0);
-    res = PY_STRING_AND_SIZE(objTxtBuffer, objTxtSize - 1);
+    res = PyBytes_FromStringAndSize(objTxtBuffer, objTxtSize - 1);
     PyMem_Free(objTxtBuffer);
     return res;
 }
@@ -71,7 +71,7 @@ static PyObject* nassl_X509_EXTENSION_get_data(nassl_X509_EXTENSION_Object *self
 
     // Extract the text from the BIO
     BIO_read(memBio, dataTxtBuffer, dataTxtSize);
-    res = PY_STRING_AND_SIZE(dataTxtBuffer, dataTxtSize);
+    res = PyBytes_FromStringAndSize(dataTxtBuffer, dataTxtSize);
     PyMem_Free(dataTxtBuffer);
     return res;
 }

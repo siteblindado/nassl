@@ -1,5 +1,5 @@
+#include <bytesobject.h>
 
-#include "nassl_compat.h"
 #include "openssl_utils.h"
 
 
@@ -24,7 +24,7 @@ PyObject* generic_print_to_string(int (*openSslPrintFunction)(BIO *fp, const voi
 
     // Extract the text from the BIO
     BIO_read(memBio, dataTxtBuffer, dataTxtSize);
-    res = PY_STRING_AND_SIZE(dataTxtBuffer, dataTxtSize);
+    res = PyBytes_FromStringAndSize(dataTxtBuffer, dataTxtSize);
     PyMem_Free(dataTxtBuffer);
     return res;
 }

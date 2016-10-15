@@ -1,5 +1,6 @@
 
 #include <Python.h>
+#include <bytesobject.h>
 
 // Include internal headers so we can access EDH and ECDH parameter
 // They need to be included before including winsock.h otherwise we get a bunch of errors on Windows
@@ -20,7 +21,6 @@
 #include <openssl/ssl.h>
 #include <openssl/ocsp.h>
 
-#include "nassl_compat.h"
 #include "nassl_errors.h"
 #include "nassl_SSL.h"
 #include "nassl_BIO.h"
@@ -143,7 +143,7 @@ static PyObject* nassl_SSL_read(nassl_SSL_Object *self, PyObject *args) {
 
     returnValue = SSL_read(self->ssl, readBuffer, readSize);
     if (returnValue > 0) { // Read OK
-        res = PY_STRING_AND_SIZE(readBuffer, returnValue);
+        res = PyBytes_FromStringAndSize(readBuffer, returnValue);
     }
     else {  // Read failed
         raise_OpenSSL_ssl_error(self->ssl, returnValue);
@@ -227,7 +227,7 @@ static PyObject* nassl_SSL_get_available_compression_methods(nassl_SSL_Object *s
             return NULL;
         }
 
-        methodPyString = PY_STRING(method->name);
+        methodPyString = PyBytes_FromString(method->name);
         if (methodPyString == NULL) {
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
         }
@@ -246,7 +246,7 @@ static PyObject* nassl_SSL_get_current_compression_method(nassl_SSL_Object *self
     if (compMethod == NULL)
         Py_RETURN_NONE;
 
-    return PY_STRING(SSL_COMP_get_name(compMethod));
+    return PyBytes_FromString(SSL_COMP_get_name(compMethod));
 }
 
 
@@ -339,7 +339,7 @@ static PyObject* nassl_SSL_get_cipher_list(nassl_SSL_Object *self, PyObject *arg
         PyObject *cipherPyString = NULL;
         const char *cipherName = SSL_get_cipher_list(self->ssl, priority);
 
-        cipherPyString = PY_STRING(cipherName);
+        cipherPyString = PyBytes_FromString(cipherName);
         if (cipherPyString == NULL)
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
 
@@ -361,7 +361,7 @@ static PyObject* nassl_SSL_get_cipher_bits(nassl_SSL_Object *self, PyObject *arg
 
 static PyObject* nassl_SSL_get_cipher_name(nassl_SSL_Object *self, PyObject *args) {
     const char *cipherName = SSL_get_cipher_name(self->ssl);
-    return PY_STRING(cipherName);
+    return PyBytes_FromString(cipherName);
 }
 
 
@@ -393,7 +393,7 @@ static PyObject* nassl_SSL_get_client_CA_list(nassl_SSL_Object *self, PyObject *
         // The use of X509_NAME_oneline is "is strongly discouraged in new applications"
         // But that's all we need for now
         nameStr = X509_NAME_oneline(name, NULL, 0);
-        namePyString = PY_STRING(nameStr);
+        namePyString = PyBytes_FromString(nameStr);
         if (namePyString == NULL) {
             return PyErr_NoMemory(); // TODO: Is it really a memory error ?
         }
@@ -530,7 +530,7 @@ static PyObject* nassl_SSL_state_string_long(nassl_SSL_Object *self, PyObject *a
     // This is only used for fixing SSLv2 connections when connecting to IIS7 (like in the 90s)
     // See SslClient.py for more information
     const char *stateString = SSL_state_string_long(self->ssl);
-    return PY_STRING(stateString);
+    return PyBytes_FromString(stateString);
 }
 
 

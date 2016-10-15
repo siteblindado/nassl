@@ -1,5 +1,6 @@
 
 #include <openssl/err.h>
+#include <bytesobject.h>
 
 #ifdef _WIN32
 #define PyErr_SetFromErrGeneric(x) PyErr_SetExcFromWindowsErr(x, 0)
@@ -7,7 +8,6 @@
 #define PyErr_SetFromErrGeneric(x) PyErr_SetFromErrno(x)
 #endif
 
-#include "nassl_compat.h"
 #include "nassl_errors.h"
 
 PyObject *nassl_OpenSSLError_Exception;
@@ -18,7 +18,7 @@ static PyObject *nassl_WantX509LookupError_Exception;
 
 
 PyObject* raise_OpenSSL_error() {
-    PyObject *pyFinalErrorString = PY_STRING("");
+    PyObject *pyFinalErrorString = PyBytes_FromString("");
     unsigned long iterateOpenSslError = ERR_get_error();
 
     // Just queue all the errors in the error queue to create a giant error string
@@ -30,11 +30,11 @@ PyObject* raise_OpenSSL_error() {
 
         // Get the current error string and convert it to a Python string
         ERR_error_string_n(iterateOpenSslError, iterateErrorString, 128);
-        pyIterateErrorString = PY_STRING(iterateErrorString);
+        pyIterateErrorString = PyBytes_FromString(iterateErrorString);
 
         // Concatenate it with the previous error strings
-        PY_CONCAT_AND_DEL(&pyFinalErrorString,PY_STRING("\n"));
-        PY_CONCAT_AND_DEL(&pyFinalErrorString, pyIterateErrorString);
+        PyBytes_ConcatAndDel(&pyFinalErrorString,PyBytes_FromString("\n"));
+        PyBytes_ConcatAndDel(&pyFinalErrorString, pyIterateErrorString);
         if (pyFinalErrorString == NULL) {
             return PyErr_NoMemory();
         }

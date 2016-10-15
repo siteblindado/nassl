@@ -1,9 +1,9 @@
 
 #include <Python.h>
+#include <bytesobject.h>
 
 #include <openssl/ssl.h>
 
-#include "nassl_compat.h"
 #include "nassl_BIO.h"
 #include "nassl_errors.h"
 
@@ -71,7 +71,7 @@ static PyObject* nassl_BIO_read(nassl_BIO_Object *self, PyObject *args) {
         return PyErr_NoMemory();
 
     if (BIO_read(self->bio, readBuffer, readSize) > 0) {
-        res = PY_STRING_AND_SIZE(readBuffer, readSize);
+        res = PyBytes_FromStringAndSize(readBuffer, readSize);
     }
     else {
             PyErr_SetString(PyExc_IOError, "BIO_read() failed.");

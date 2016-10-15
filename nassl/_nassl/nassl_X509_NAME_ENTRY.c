@@ -1,9 +1,9 @@
 
 #include <Python.h>
+#include <bytesobject.h>
 
 #include <openssl/x509.h>
 
-#include "nassl_compat.h"
 #include "nassl_errors.h"
 #include "nassl_X509_NAME_ENTRY.h"
 
@@ -62,7 +62,7 @@ static PyObject* nassl_X509_NAME_ENTRY_get_data(nassl_X509_NAME_ENTRY_Object *se
         }
     }
     PyMem_Free(objectDataTxt);
-    res = PY_STRING_AND_SIZE((const char*) nameDataTxt, nameDataSize);
+    res = PyBytes_FromStringAndSize((const char*) nameDataTxt, nameDataSize);
     return res;
 }
 
@@ -84,7 +84,7 @@ static PyObject* nassl_X509_NAME_ENTRY_get_object(nassl_X509_NAME_ENTRY_Object *
 
     // Extract the text representation
     OBJ_obj2txt(objectDataTxt, objectDataSize, objectData, 0);
-    res = PY_STRING_AND_SIZE(objectDataTxt, objectDataSize - 1);
+    res = PyBytes_FromStringAndSize(objectDataTxt, objectDataSize - 1);
     PyMem_Free(objectDataTxt);
     return res;
 }
