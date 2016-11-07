@@ -183,7 +183,8 @@ class X509Certificate:
     def _parse_x509_name(nameEntries):
         nameEntriesDict= {}
         for entry in nameEntries:
-            nameEntriesDict[entry.get_object()] = entry.get_data()
+            nameEntriesDict[str(entry.get_object(),'utf-8')] = str(
+                entry.get_data(), 'utf-8')
         return nameEntriesDict
 
 
@@ -265,8 +266,8 @@ class X509Certificate:
         ext_dict = {}
 
         for x509ext in self._x509.get_extensions():
-            ext_name = x509ext.get_object()
-            ext_data = x509ext.get_data()
+            ext_name = str(x509ext.get_object(), 'utf-8')
+            ext_data = str(x509ext.get_data(), 'utf-8')
             # TODO: Should we output the critical field ?
             #extCrit = x509ext.get_critical()
             if ext_name in list(x509_ext_parsing_methods.keys()):
