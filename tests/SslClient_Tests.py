@@ -167,7 +167,7 @@ class SslClient_Tests_Online(unittest.TestCase):
                                     ignore_client_authentication_requests=True)
 
         ssl_client.do_handshake()
-        self.assertGreater(ssl_client.get_client_CA_list(), 2)
+        self.assertGreater(len(ssl_client.get_client_CA_list()), 2)
 
 
 def main():

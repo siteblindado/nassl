@@ -5,9 +5,6 @@
 extern "C" {
 #endif
 /* OpenSSL was configured with the following options: */
-#ifndef OPENSSL_SYSNAME_MACOSX
-# define OPENSSL_SYSNAME_MACOSX
-#endif
 #ifndef OPENSSL_DOING_MAKEDEPEND
 
 
@@ -97,8 +94,8 @@ extern "C" {
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "/Users/nabla/Documents/github/nassl/bin/openssl/darwin64/lib/engines"
-#define OPENSSLDIR "/Users/nabla/Documents/github/nassl/bin/openssl/darwin64/ssl"
+#define ENGINESDIR "/home/crestani/Projects/nassl/bin/openssl/linux64/lib/engines"
+#define OPENSSLDIR "/home/crestani/Projects/nassl/bin/openssl/linux64/ssl"
 #endif
 #endif
 

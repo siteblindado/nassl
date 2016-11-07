@@ -56,8 +56,9 @@ A4GBAFjOKer89961zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y
     def test_set_private_key_password_null_byte(self):
         # NULL byte embedded in the password
         test_ssl_ctx = _nassl.SSL_CTX(SSLV23)
-        self.assertRaisesRegex(TypeError, 'must be string without null bytes', test_ssl_ctx.set_private_key_password,
-                                ("AAA\x00AAAA"))
+        self.assertRaisesRegex(ValueError, 'embedded null character',
+                               test_ssl_ctx.set_private_key_password,
+                               ("AAA\x00AAA"))
 
 
     def test_use_certificate_file(self):
