@@ -18,13 +18,15 @@ static PyObject *nassl_WantWriteError_Exception;
 static PyObject *nassl_WantX509LookupError_Exception;
 
 
-PyObject* raise_OpenSSL_error() {
+PyObject* raise_OpenSSL_error()
+{
     PyObject *pyFinalErrorString = PyBytes_FromString("");
     unsigned long iterateOpenSslError = ERR_get_error();
 
     // Just queue all the errors in the error queue to create a giant error string
     // TODO: Improve error handling so we only return one single error; no sure if OpenSSL allows that...
-    while(iterateOpenSslError != 0) {
+    while(iterateOpenSslError != 0)
+    {
         PyObject* pyIterateErrorString;
         char iterateErrorString[128];
         iterateErrorString[0] = '\0';
@@ -36,7 +38,8 @@ PyObject* raise_OpenSSL_error() {
         // Concatenate it with the previous error strings
         PyBytes_ConcatAndDel(&pyFinalErrorString,PyBytes_FromString("\n"));
         PyBytes_ConcatAndDel(&pyFinalErrorString, pyIterateErrorString);
-        if (pyFinalErrorString == NULL) {
+        if (pyFinalErrorString == NULL)
+        {
             return PyErr_NoMemory();
         }
 
@@ -49,12 +52,12 @@ PyObject* raise_OpenSSL_error() {
 }
 
 
-PyObject* raise_OpenSSL_ssl_error(SSL *ssl, int returnValue) {
+PyObject* raise_OpenSSL_ssl_error(SSL *ssl, int returnValue)
+{
     // TODO: Better error handling
     int sslError = SSL_get_error(ssl, returnValue);
-
-    switch(sslError) {
-
+    switch(sslError)
+    {
         case SSL_ERROR_NONE:
             break;
 
@@ -62,21 +65,26 @@ PyObject* raise_OpenSSL_ssl_error(SSL *ssl, int returnValue) {
         	return raise_OpenSSL_error();
 
         case SSL_ERROR_SYSCALL:
-            if (ERR_peek_error() == 0) {
-                if (returnValue == 0) {
+            if (ERR_peek_error() == 0)
+            {
+                if (returnValue == 0)
+                {
                     PyErr_SetString(nassl_SslError_Exception, "An EOF was observed that violates the protocol");
                     return NULL;
                 }
-                else if (returnValue == -1) {
+                else if (returnValue == -1)
+                {
                     PyErr_SetFromErrGeneric(nassl_SslError_Exception);
                     return NULL;
                 }
-                else {
+                else
+                {
                     PyErr_SetString(nassl_SslError_Exception, "SSL_ERROR_SYSCALL");
                     return NULL;
                 }
             }
-            else {
+            else
+            {
                 return raise_OpenSSL_error();
             }
 
@@ -100,12 +108,12 @@ PyObject* raise_OpenSSL_ssl_error(SSL *ssl, int returnValue) {
             PyErr_SetString(nassl_SslError_Exception, "TODO: Better error handling");
             return NULL;
     }
-
     Py_RETURN_NONE;
 }
 
 
-void module_add_errors(PyObject* m) {
+void module_add_errors(PyObject* m)
+{
     nassl_OpenSSLError_Exception = PyErr_NewException("_nassl.OpenSSLError", NULL, NULL);
     Py_INCREF(nassl_OpenSSLError_Exception);
     PyModule_AddObject(m, "OpenSSLError", nassl_OpenSSLError_Exception);

@@ -16,12 +16,14 @@ class X509Certificate:
     """
 
     def __init__(self, x509):
+        # type: (X509) -> None
         self._cert_dict = None
         self._x509 = x509
 
 
     @classmethod
     def from_pem(cls, pem_certificate):
+        # type: (str) -> X509Certificate
         """Create an X509Certificate object from a PEM-formatted certificate.
         """
         x509 = X509(pem_certificate)
@@ -29,18 +31,22 @@ class X509Certificate:
 
 
     def as_text(self):
+        # type: () -> str
         return self._x509.as_text()
 
 
     def as_pem(self):
+        # type: () -> str
         return self._x509.as_pem()
 
 
     def get_SHA1_fingerprint(self):
+        # type: () -> str
         return hexlify(self._x509.digest()).decode('utf-8')
 
 
     def get_hpkp_pin(self):
+        # type: () -> str
         """Return the SHA-256 of the Subject Public Key Info base64-encoded, to be used for HTTP Public Key Pinning.
         """
         spki_bytes = self._x509.get_spki_bytes()
@@ -49,7 +55,7 @@ class X509Certificate:
 
 
     def as_dict(self):
-
+        # type: () -> dict
         if self._cert_dict:
             return self._cert_dict
 
@@ -65,7 +71,6 @@ class X509Certificate:
                      'signatureValue': self._parse_signature()
                      }
         self._cert_dict = cert_dict
-
         return cert_dict
 
 
@@ -253,7 +258,7 @@ class X509Certificate:
 # Extension Parsing Functions
     def _parse_x509_extensions(self):
         x509_ext_parsing_methods = {
-            'X509v3 Subject Alternative Name': self._parse_multi_valued_extension,
+            'X509v3 Subject Alternative Name': self._parse_san,
             'X509v3 CRL Distribution Points': self._parse_crl_distribution_points,
             'Authority Information Access': self._parse_authority_information_access,
             'X509v3 Key Usage': self._parse_multi_valued_extension,
@@ -267,21 +272,25 @@ class X509Certificate:
 
         for x509ext in self._x509.get_extensions():
             ext_name = str(x509ext.get_object(), 'utf-8')
-            ext_data = str(x509ext.get_data(), 'utf-8')
             # TODO: Should we output the critical field ?
             #extCrit = x509ext.get_critical()
-            if ext_name in list(x509_ext_parsing_methods.keys()):
-                ext_dict[ext_name] = x509_ext_parsing_methods[ext_name](ext_data)
+            if ext_name in x509_ext_parsing_methods.keys():
+                ext_dict[ext_name] = x509_ext_parsing_methods[ext_name](x509ext)
             else:
-                ext_dict[ext_name] = ext_data.strip()
+                ext_dict[ext_name] = x509ext.get_data().strip()
 
         return ext_dict
 
 
-    @staticmethod
-    def _parse_multi_valued_extension(extension):
 
-        extension = extension.split(', ')
+    @staticmethod
+    def _parse_san(extension):
+        return extension.parse_subject_alt_name()
+
+
+    @staticmethod
+    def _parse_multi_valued_extension(x509ext):
+        extension = x509ext.get_data().split(', ')
         # Split the (key,value) pairs
         parsed_ext = {}
         for value in extension:
@@ -298,9 +307,9 @@ class X509Certificate:
 
 
     @staticmethod
-    def _parse_authority_information_access(auth_ext):
+    def _parse_authority_information_access(x509ext):
         # Hazardous attempt at parsing an Authority Information Access extension
-        auth_ext = auth_ext.strip(' \n').split('\n')
+        auth_ext = x509ext.get_data().strip(' \n').split('\n')
         auth_ext_list = {}
 
         for auth_entry in auth_ext:
@@ -320,9 +329,9 @@ class X509Certificate:
 
 
     @staticmethod
-    def _parse_crl_distribution_points(crl_ext):
+    def _parse_crl_distribution_points(x509ext):
         # Hazardous attempt at parsing a CRL Distribution Point extension
-        crl_ext = crl_ext.strip(' \n').split('\n')
+        crl_ext = x509ext.get_data().strip(' \n').split('\n')
         subcrl = {}
 
         for distrib_point in crl_ext:
